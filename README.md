@@ -725,27 +725,7 @@ style="display:none;">
 df.info()
 
 ```
-
-<class 'pandas.core.frame.DataFrame'>
-RangeIndex: 21 entries, 0 to 20
-Data columns (total 12 columns):
-#   Column   Non-Null Count  Dtype  
----  ------   --------------  -----  
-0   SNO      21 non-null     int64  
-1   REGNO    21 non-null     int64  
-2   NAME     20 non-null     object 
-3   DOB      21 non-null     object 
-4   GENDER   20 non-null     object 
-5   ADDRESS  20 non-null     object 
-6   M1       18 non-null     float64
-7   M2       19 non-null     float64
-8   M3       17 non-null     float64
-9   M4       18 non-null     float64
-10  TOTAL    16 non-null     float64
-11  AVG      20 non-null     float64
-dtypes: float64(6), int64(2), object(4)
-memory usage: 2.1+ KB
-
+<img width="571" height="448" alt="image" src="https://github.com/user-attachments/assets/c3f87ac7-18ed-4979-a97d-6f97dea3f2d7" />
 
 
 ```python
@@ -2055,7 +2035,9 @@ style="display:none;">
 
 
 <div id="id_d1127f47-d386-497d-8184-2c89fc3199ed">
-4] #extract the specif rows
+            
+```python
+df.iloc[:4] #extract the specif rows
 ```
 
 
@@ -3679,14 +3661,905 @@ style="display:none;">
 </div>
 </div>
 
+### IQR
+
+
+```python
+import pandas as pd
+import numpy as np
+import seaborn as sns
+
+df = pd.read_csv('iris.csv')
+df
+```
+
+
+
+
+
+<div id="df-e27e843a-f8f7-4656-a967-e9b8f32d4640" class="colab-df-container">
+<div>
+
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>sepal_length</th>
+<th>sepal_width</th>
+<th>petal_length</th>
+<th>petal_width</th>
+<th>species</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>5.1</td>
+<td>3.5</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>1</th>
+<td>4.9</td>
+<td>3.0</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>2</th>
+<td>4.7</td>
+<td>3.2</td>
+<td>1.3</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>3</th>
+<td>4.6</td>
+<td>3.1</td>
+<td>1.5</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>4</th>
+<td>5.0</td>
+<td>3.6</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>145</th>
+<td>6.7</td>
+<td>3.0</td>
+<td>5.2</td>
+<td>2.3</td>
+<td>virginica</td>
+</tr>
+<tr>
+<th>146</th>
+<td>6.3</td>
+<td>2.5</td>
+<td>5.0</td>
+<td>1.9</td>
+<td>virginica</td>
+</tr>
+<tr>
+<th>147</th>
+<td>6.5</td>
+<td>3.0</td>
+<td>5.2</td>
+<td>2.0</td>
+<td>virginica</td>
+</tr>
+<tr>
+<th>148</th>
+<td>6.2</td>
+<td>3.4</td>
+<td>5.4</td>
+<td>2.3</td>
+<td>virginica</td>
+</tr>
+<tr>
+<th>149</th>
+<td>5.9</td>
+<td>3.0</td>
+<td>5.1</td>
+<td>1.8</td>
+<td>virginica</td>
+</tr>
+</tbody>
+</table>
+<p>150 rows × 5 columns</p>
+</div>
+<div class="colab-df-buttons">
+
+<div class="colab-df-container">
+
+
+</div>
+
+
+<div id="id_9f35fa31-8a28-4538-a078-371d197b20ed">
+</div>
+
+</div>
+</div>
+
 
 
 
 
 ```python
+sns.boxplot(x='sepal_width',data=df)
 
 ```
 
 
+
+
+<Axes: xlabel='sepal_width'>
+
+
+
+
+
+<img width="528" height="433" alt="image" src="https://github.com/user-attachments/assets/cce92f1a-8a1b-4c56-bc4e-3a11559ec88a" />
+
+
+
+
+
+```python
+df.describe()
+
+```
+
+
+
+
+
+<div id="df-bac87385-1827-4f65-b5f1-8d7093797299" class="colab-df-container">
+<div>
+
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>sepal_length</th>
+<th>sepal_width</th>
+<th>petal_length</th>
+<th>petal_width</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>count</th>
+<td>150.000000</td>
+<td>150.000000</td>
+<td>150.000000</td>
+<td>150.000000</td>
+</tr>
+<tr>
+<th>mean</th>
+<td>5.843333</td>
+<td>3.054000</td>
+<td>3.758667</td>
+<td>1.198667</td>
+</tr>
+<tr>
+<th>std</th>
+<td>0.828066</td>
+<td>0.433594</td>
+<td>1.764420</td>
+<td>0.763161</td>
+</tr>
+<tr>
+<th>min</th>
+<td>4.300000</td>
+<td>2.000000</td>
+<td>1.000000</td>
+<td>0.100000</td>
+</tr>
+<tr>
+<th>25%</th>
+<td>5.100000</td>
+<td>2.800000</td>
+<td>1.600000</td>
+<td>0.300000</td>
+</tr>
+<tr>
+<th>50%</th>
+<td>5.800000</td>
+<td>3.000000</td>
+<td>4.350000</td>
+<td>1.300000</td>
+</tr>
+<tr>
+<th>75%</th>
+<td>6.400000</td>
+<td>3.300000</td>
+<td>5.100000</td>
+<td>1.800000</td>
+</tr>
+<tr>
+<th>max</th>
+<td>7.900000</td>
+<td>4.400000</td>
+<td>6.900000</td>
+<td>2.500000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="colab-df-buttons">
+
+<div class="colab-df-container">
+
+
+</div>
+
+
+</div>
+</div>
+
+
+
+
+
+```python
+q1=df.sepal_width.quantile(0.25)
+q3=df.sepal_width.quantile(0.75)
+iqr=q3-q1
+iqr
+```
+
+
+
+
+np.float64(0.5)
+
+
+
+
+```python
+l=q1-1.5*iqr
+l
+```
+
+
+
+
+np.float64(2.05)
+
+
+
+
+```python
+u=q3+1.5*iqr
+u
+```
+
+
+
+
+np.float64(4.05)
+
+
+
+
+```python
+af=df[((df.sepal_width<l)|(df.sepal_width>u))]
+af
+
+```
+
+
+
+
+
+<div id="df-27b9cf48-bbf9-4f66-8fdd-05c1aa970da6" class="colab-df-container">
+<div>
+
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>sepal_length</th>
+<th>sepal_width</th>
+<th>petal_length</th>
+<th>petal_width</th>
+<th>species</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>15</th>
+<td>5.7</td>
+<td>4.4</td>
+<td>1.5</td>
+<td>0.4</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>32</th>
+<td>5.2</td>
+<td>4.1</td>
+<td>1.5</td>
+<td>0.1</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>33</th>
+<td>5.5</td>
+<td>4.2</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>60</th>
+<td>5.0</td>
+<td>2.0</td>
+<td>3.5</td>
+<td>1.0</td>
+<td>versicolor</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="colab-df-buttons">
+
+<div class="colab-df-container">
+
+
+</div>
+
+
+<div id="id_880df00c-ad11-4e96-af9b-d7e4edd20416">
+</div>
+
+</div>
+</div>
+
+
+
+
+
+```python
+rf=df[~(((df.sepal_width<l)|(df.sepal_width>u)))]
+rf
+
+```
+
+
+
+
+
+<div id="df-cad7df69-c564-43dd-955f-219d5dff8a4c" class="colab-df-container">
+<div>
+
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>sepal_length</th>
+<th>sepal_width</th>
+<th>petal_length</th>
+<th>petal_width</th>
+<th>species</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>5.1</td>
+<td>3.5</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>1</th>
+<td>4.9</td>
+<td>3.0</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>2</th>
+<td>4.7</td>
+<td>3.2</td>
+<td>1.3</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>3</th>
+<td>4.6</td>
+<td>3.1</td>
+<td>1.5</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>4</th>
+<td>5.0</td>
+<td>3.6</td>
+<td>1.4</td>
+<td>0.2</td>
+<td>setosa</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>145</th>
+<td>6.7</td>
+<td>3.0</td>
+<td>5.2</td>
+<td>2.3</td>
+<td>virginica</td>
+</tr>
+<tr>
+<th>146</th>
+<td>6.3</td>
+<td>2.5</td>
+<td>5.0</td>
+<td>1.9</td>
+<td>virginica</td>
+</tr>
+<tr>
+<th>147</th>
+<td>6.5</td>
+<td>3.0</td>
+<td>5.2</td>
+<td>2.0</td>
+<td>virginica</td>
+</tr>
+<tr>
+<th>148</th>
+<td>6.2</td>
+<td>3.4</td>
+<td>5.4</td>
+<td>2.3</td>
+<td>virginica</td>
+</tr>
+<tr>
+<th>149</th>
+<td>5.9</td>
+<td>3.0</td>
+<td>5.1</td>
+<td>1.8</td>
+<td>virginica</td>
+</tr>
+</tbody>
+</table>
+<p>146 rows × 5 columns</p>
+</div>
+<div class="colab-df-buttons">
+
+<div class="colab-df-container">
+
+
+</div>
+
+
+<div id="id_bb75c7d7-84d2-433c-ab0e-f137156be394">
+</div>
+
+</div>
+</div>
+
+
+
+
+
+```python
+sns.boxplot(x='sepal_width',data=rf)
+
+```
+
+
+
+
+<Axes: xlabel='sepal_width'>
+
+
+
+
+
+<img width="520" height="433" alt="image" src="https://github.com/user-attachments/assets/357096bf-a309-472a-9a32-6618fceb3268" />
+
+
+### Z-score
+
+
+
+
+```python
+import pandas as pd
+import numpy as np
+from scipy import stats
+df = pd.read_csv('heights.csv')
+df
+```
+
+
+
+
+
+<div id="df-c19ef693-3d82-419b-b026-77902c011138" class="colab-df-container">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>name</th>
+<th>height</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>mohan</td>
+<td>5.9</td>
+</tr>
+<tr>
+<th>1</th>
+<td>maria</td>
+<td>5.2</td>
+</tr>
+<tr>
+<th>2</th>
+<td>sakib</td>
+<td>5.1</td>
+</tr>
+<tr>
+<th>3</th>
+<td>tao</td>
+<td>5.5</td>
+</tr>
+<tr>
+<th>4</th>
+<td>virat</td>
+<td>4.9</td>
+</tr>
+<tr>
+<th>5</th>
+<td>khusbu</td>
+<td>5.4</td>
+</tr>
+<tr>
+<th>6</th>
+<td>dmitry</td>
+<td>6.2</td>
+</tr>
+<tr>
+<th>7</th>
+<td>selena</td>
+<td>6.5</td>
+</tr>
+<tr>
+<th>8</th>
+<td>john</td>
+<td>7.1</td>
+</tr>
+<tr>
+<th>9</th>
+<td>imran</td>
+<td>14.5</td>
+</tr>
+<tr>
+<th>10</th>
+<td>jose</td>
+<td>6.1</td>
+</tr>
+<tr>
+<th>11</th>
+<td>deepika</td>
+<td>5.6</td>
+</tr>
+<tr>
+<th>12</th>
+<td>yoseph</td>
+<td>1.2</td>
+</tr>
+<tr>
+<th>13</th>
+<td>binod</td>
+<td>5.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="colab-df-buttons">
+
+<div class="colab-df-container">
+<button class="colab-df-convert" onclick="convertToInteractive('df-c19ef693-3d82-419b-b026-77902c011138')"
+title="Convert this dataframe to an interactive table."
+style="display:none;">
+
+</button>
+
+
+</div>
+
+
+<div id="id_f63ea6bc-baca-439c-b97f-73ca43353b79">
+<button class="colab-df-generate" onclick="generateWithVariable('df')"
+title="Generate code using this dataframe."
+style="display:none;">
+
+</button>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+```python
+df.info()
+```
+<img width="432" height="209" alt="image" src="https://github.com/user-attachments/assets/2d84e972-6dd7-48af-8ffc-8effc10f259b" />
+
+
+```python
+import seaborn as sns
+sns.boxplot(data=df)
+```
+
+
+
+
+<Axes: >
+
+
+
+
+
+<img width="543" height="413" alt="image" src="https://github.com/user-attachments/assets/54858031-d4ed-41a0-9b59-2f9b2efeefe1" />
+
+
+
+
+
+```python
+z = np.abs(stats.zscore(df['height']))
+pd.DataFrame(z)
+```
+
+
+
+
+
+<div id="df-d25e7778-b771-40a1-8594-ecfcc4fe0e02" class="colab-df-container">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>0.055998</td>
+</tr>
+<tr>
+<th>1</th>
+<td>0.317320</td>
+</tr>
+<tr>
+<th>2</th>
+<td>0.354652</td>
+</tr>
+<tr>
+<th>3</th>
+<td>0.205325</td>
+</tr>
+<tr>
+<th>4</th>
+<td>0.429315</td>
+</tr>
+<tr>
+<th>5</th>
+<td>0.242656</td>
+</tr>
+<tr>
+<th>6</th>
+<td>0.055998</td>
+</tr>
+<tr>
+<th>7</th>
+<td>0.167993</td>
+</tr>
+<tr>
+<th>8</th>
+<td>0.391983</td>
+</tr>
+<tr>
+<th>9</th>
+<td>3.154532</td>
+</tr>
+<tr>
+<th>10</th>
+<td>0.018666</td>
+</tr>
+<tr>
+<th>11</th>
+<td>0.167993</td>
+</tr>
+<tr>
+<th>12</th>
+<td>1.810589</td>
+</tr>
+<tr>
+<th>13</th>
+<td>0.205325</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="colab-df-buttons">
+
+<div class="colab-df-container">
+<button class="colab-df-convert" onclick="convertToInteractive('df-d25e7778-b771-40a1-8594-ecfcc4fe0e02')"
+title="Convert this dataframe to an interactive table."
+style="display:none;">
+
+</button>
+
+
+</div>
+
+
+</div>
+</div>
+
+
+
+
+
+```python
+df1=df[z<3]
+df1
+```
+
+
+
+
+
+<div id="df-8b8448fe-d4fe-4b3d-9fd1-75c38c261826" class="colab-df-container">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>name</th>
+<th>height</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>mohan</td>
+<td>5.9</td>
+</tr>
+<tr>
+<th>1</th>
+<td>maria</td>
+<td>5.2</td>
+</tr>
+<tr>
+<th>2</th>
+<td>sakib</td>
+<td>5.1</td>
+</tr>
+<tr>
+<th>3</th>
+<td>tao</td>
+<td>5.5</td>
+</tr>
+<tr>
+<th>4</th>
+<td>virat</td>
+<td>4.9</td>
+</tr>
+<tr>
+<th>5</th>
+<td>khusbu</td>
+<td>5.4</td>
+</tr>
+<tr>
+<th>6</th>
+<td>dmitry</td>
+<td>6.2</td>
+</tr>
+<tr>
+<th>7</th>
+<td>selena</td>
+<td>6.5</td>
+</tr>
+<tr>
+<th>8</th>
+<td>john</td>
+<td>7.1</td>
+</tr>
+<tr>
+<th>10</th>
+<td>jose</td>
+<td>6.1</td>
+</tr>
+<tr>
+<th>11</th>
+<td>deepika</td>
+<td>5.6</td>
+</tr>
+<tr>
+<th>12</th>
+<td>yoseph</td>
+<td>1.2</td>
+</tr>
+<tr>
+<th>13</th>
+<td>binod</td>
+<td>5.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="colab-df-buttons">
+
+<div class="colab-df-container">
+<button class="colab-df-convert" onclick="convertToInteractive('df-8b8448fe-d4fe-4b3d-9fd1-75c38c261826')"
+title="Convert this dataframe to an interactive table."
+style="display:none;">
+
+</button>
+
+
+</div>
+
+
+<div id="id_aba50751-8acf-462d-9532-10f4f691328d">
+<button class="colab-df-generate" onclick="generateWithVariable('df1')"
+title="Generate code using this dataframe."
+style="display:none;">
+
+</button>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
 # Result
-          <<include your Result here>>
+  Hence the data was cleaned, outliers were detected and removed.
